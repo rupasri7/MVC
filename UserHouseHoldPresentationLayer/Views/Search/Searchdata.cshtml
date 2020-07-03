@@ -1,0 +1,87 @@
+﻿@*@Model Household;*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    
+        <meta name="viewport" content="width=device-width" />
+        <title>ShowGrid</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+
+</head>
+<body>
+
+    <br><br><br><br>
+    <div class="container">   
+            <table id="demoGrid" class="table table-striped table-bordered" width="90%" >
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>FirstName</th>
+                        <th>MiddleName</th>
+                        <th>LastName</th>
+                        <th>Suffix</th>
+                        <th>Dob</th>
+                        <th>Gender</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var data in ViewBag.SearchData)
+                    {
+                    <tr>
+                        <td>@data.HId</td>
+                        <td>@data.Firstname</td>
+                        <td>@data.Middlename</td>
+                        <td>@data.Lastname</td>
+                        <td>@data.Suffix</td>
+                        <td>@data.Dob</td>
+                        <td>@data.Gender</td>
+                        <td>@Html.ActionLink("View/Edit", "HouseholdAddMember","HouseHold", new {HID = @data.HId,
+                              Firstname=@data.Firstname,
+                              Lastname=@data.Lastname,
+                              Middlename=@data.Middlename,
+                              Suffix=@data.Suffix,
+                              Dob=@data.Dob,
+                              Gender=@data.Gender},null) </td>           
+                   
+                    </tr>
+                    }
+                </tbody>
+            </table>
+</div>
+    <script>
+
+        $(document).ready(function () {
+            $('#demoGrid').DataTable(
+                
+                { "Search": false }
+ 
+            );
+        });
+               
+    </script>
+    <style>
+        label{
+            display:none
+        }
+    </style>
+</body>
+</html>
+
+

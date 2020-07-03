@@ -1,0 +1,50 @@
+﻿@using Models;
+@{
+    ViewBag.Title = "Login";
+}
+@Html.ValidationSummary(true)
+
+<h2>Login</h2>
+<h5>Please enter username and password @Html.ActionLink("Register here", "Registration", "Registration") if u don't have account</h5>
+<hr />
+<form action="/Login/LoginData" method="post">
+    <div class="form-group">
+        <div class="col-7">
+            <input type="text" id="txtUserName" name="username" class="form-control" placeholder="User Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-7">
+            <input type="text" name="password" class="form-control" placeholder="Password">
+        </div>
+    </div>
+    <div>
+        @*UserName : <input type="text" name="UserName" />
+            Password : <input type="password" name="password" />*@
+        <input type="submit" value="Login" class="btn btn-success" onclick="validate()" />
+    </div>
+</form>
+
+
+@*<script type="text/javascript">
+    function validate() {
+        // var username = document.getElementById("username").value;
+        //var password = document.getElementById("password").value;
+        alert("Login successfully");
+        window.location = "success.html"; // Redirecting to other page.
+        return false;
+    }
+
+
+</script>
+@*<select>
+    @foreach (User item in Model)
+           {
+
+               if (@Model.username == @item.Username && @Model.password == @item.Password)
+               {
+
+               }
+           }
+       </select>
+*@

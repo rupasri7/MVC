@@ -1,0 +1,186 @@
+﻿@model Models.Household
+@using Newtonsoft.Json;
+@using Models;
+
+@{
+    ViewBag.Title = "HouseholdView";
+}
+
+<h2>Create Application</h2>
+<h5>Household Member 1 of 1</h5>
+
+@using (Html.BeginForm("HouseholdAddMember", "HouseHold", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+{
+    @Html.AntiForgeryToken()
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Firstname, htmlAttributes: new { @class = "control-label col-md-2", })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Middlename, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Middlename, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Middlename, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lastname, htmlAttributes: new { @class = "control-label col-md-2", required = "required" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Suffix, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @*@Html.EditorFor(model => model.Suffix, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Suffix, "", new { @class = "text-danger" })
+                *@
+                <select class="form-control" id="Suffix" name="Suffix">
+                    <option> Mr.</option>
+                    <option> Ms.</option>
+                    <option> Mrs.</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Dob, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Dob, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Dob, "", new { @class = "text-danger" })
+                <p style="color:red">@ViewData["dobmessage"]</p>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                *@
+                @Html.Label("Male")
+                @Html.RadioButtonFor(model => model.Gender, "M")
+                @Html.Label("Female")
+                @Html.RadioButtonFor(model => model.Gender, "F")
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "error" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" name="GridHtml" />
+                <input type="submit" id="btnSubmit" value="Add Member" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div align="left" class="form-group">
+    <input class="btn btn-success" type="submit" value="Save & Exit" id="SaveExit" onclick="location.href='@Url.Action("SaveData", "Household")'" />
+    <p style="color:red">@ViewData["message"]</p>
+</div>
+<div align="right">
+    <input class="btn btn-success" type="button" value="Back" onclick="location.href='@Url.Action("Index", "Home")'" />
+    <input class="btn btn-success" type="button" value="Next" onclick="location.href='@Url.Action("HouseholdRelationShip", "Household")'" />
+</div>
+
+<div id="Grid">
+
+    @{
+        try
+        {
+            var value = HttpContext.Current.Session["Data"].ToString();
+            var value2 = JsonConvert.DeserializeObject<List<Household>>(value);
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">FirstName</div>
+
+                    <div class="col-sm-2">MiddleName</div>
+                    <div class="col-sm-2">LastName</div>
+                    <div class="col-sm-1">Suffix</div>
+                    <div class="col-sm-2">DOb</div>
+                    <div class="col-sm-2">Gender</div>
+                    
+                </div>
+           
+            
+                <div class="row">
+                    @foreach (var item in value2)
+                    {
+
+                        <div class="col-sm-2">
+                            @item.Firstname
+                        </div>
+                        <div class="col-sm-2">
+                            @item.Middlename
+                        </div>
+                        <div class="col-sm-2">
+                            @item.Lastname
+                        </div>
+                        <div class="col-sm-1">
+                            @item.Suffix
+                        </div>
+                        <div class="col-sm-2">
+                            @item.Dob
+                        </div>
+                        <div class="col-sm-2">
+                            @item.Gender
+                            &nbsp;&nbsp;
+                          
+                        </div>
+                        <div class="col-sm-1">
+                            @Html.ActionLink("Delete", "DeleteMember", "HouseHold", new
+                       {
+                           Dob = item.Dob,
+                           Firstname = item.Firstname,
+                           Middlename=item.Middlename,
+                           Lastname=item.Lastname,
+                           Suffix=item.Suffix,
+                           Gender=item.Gender
+
+                       },null)
+                        </div>
+                    }
+                </div>
+                </div>
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                }
+                
+            </div>
+           
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/jqueryval")
+
+
+

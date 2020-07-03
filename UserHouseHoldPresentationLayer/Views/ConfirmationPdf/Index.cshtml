@@ -1,0 +1,68 @@
+﻿@*@using Models;*@
+@using System.Web.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 9pt;
+        }
+    </style>
+</head>
+<body>
+    <h4>HouseholdMembers with Relation</h4>
+    <hr />
+    <div id="Grid">
+        <table cellpadding="5" cellspacing="0" style="border: 1px solid #ccc;font-size: 9pt;">
+            <tr>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Application Id </th>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Applicant Name </th>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Member Name</th>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Member Dob</th>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Member Gender</th>
+                <th style="background-color: #B8DBFD;border: 1px solid #ccc">Relation</th>
+            </tr>
+            @foreach (var item in ViewBag.list)
+            {
+                <tr>
+
+                   
+                    <td style="width:120px;border: 1px solid #ccc">@item.ApplicationId</td>
+                    <td style="width:120px;border: 1px solid #ccc">@item.ApplicantName</td>
+                    <td style="width:120px;border: 1px solid #ccc">@item.MemberName</td>
+                    <td style="width:120px;border: 1px solid #ccc">@item.MemberDob</td>
+                    <td style="width:120px;border: 1px solid #ccc">@item.MemberGender</td>
+                    <td style="width:120px;border: 1px solid #ccc">@item.Relate</td>
+                   
+                </tr>
+            }
+        </table>
+    </div>
+    <br />
+    <br />
+    @using (Html.BeginForm("Export", "ConfirmationPdf", FormMethod.Post))
+    {
+        <input type="hidden" name="GridHtml" />
+        <input type="submit" id="btnSubmit" value="Export" />
+    }
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                console.log($("#Grid").html();
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+    </script>
+</body>
+</html>
